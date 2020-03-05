@@ -8,15 +8,15 @@ namespace plan_your_heist
     static void Main(string[] args)
     {
       Console.WriteLine("Plan Your Heist");
-      List<Dictionary<string, string>> teamMemberList = new List<Dictionary<string, string>>();
+      List<Member> team = new List<Member>();
       Console.WriteLine("Enter Bank's difficulty");
       int defaultBankDifficulty = int.Parse(Console.ReadLine());
+      Console.Clear();
       int totalTeamSkillLevel = 0;
       int successfulRuns = 0;
       int failedRuns = 0;
       while (true)
       {
-        Dictionary<string, string> teamMember = new Dictionary<string, string>();
         Console.WriteLine("Please enter team member Name!");
         string singleMember = Console.ReadLine();
         if (singleMember == "")
@@ -24,16 +24,10 @@ namespace plan_your_heist
           Console.WriteLine("How many times would you like to run this heist scenario?");
           int scenarioRunTimes = int.Parse(Console.ReadLine());
           Console.WriteLine($"You're making {scenarioRunTimes} attempts");
-          foreach (Dictionary<string, string> member in teamMemberList)
+          foreach (Member singleTeamMember in team)
           {
-            foreach (KeyValuePair<string, string> pair in member)
-            {
-              if (pair.Key == "skill")
-              {
-                totalTeamSkillLevel += int.Parse(pair.Value);
-              }
 
-            }
+            totalTeamSkillLevel += singleTeamMember.Skill;
           }
           for (int i = 0; i < scenarioRunTimes; i++)
           {
@@ -55,15 +49,15 @@ namespace plan_your_heist
               failedRuns++;
             }
           }
-
           break;
         }
-        teamMember.Add("member name", singleMember);
+        Member member = new Member();
+        member.Name = singleMember;
         Console.WriteLine("Please enter team member skill!");
-        teamMember.Add("skill", Console.ReadLine());
+        member.Skill = int.Parse(Console.ReadLine());
         Console.WriteLine("Please enter team member Courage!");
-        teamMember.Add("courage", Console.ReadLine());
-        teamMemberList.Add(teamMember);
+        member.Courage = decimal.Parse(Console.ReadLine());
+        team.Add(member);
       }
       Console.WriteLine($"You suceeded {successfulRuns}! You failed {failedRuns}.");
     }
